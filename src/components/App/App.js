@@ -12,7 +12,7 @@ import Footer from '../Footer/Footer';
 
 function App() {
   return (
-    <div>
+    <div className="body">
       <Header />
 
       <Routes>
