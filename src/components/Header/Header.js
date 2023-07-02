@@ -1,7 +1,13 @@
+import './Header.css';
+import Logo from '../Logo/Logo';
+import Navigation from '../Navigation/Navigation';
+
 function Header() {
   return (
-    <div>
-    </div>
+    <header className="header">
+      <Logo />
+      <Navigation isLoggedIn={true} />
+    </header>
   )
 };
 
