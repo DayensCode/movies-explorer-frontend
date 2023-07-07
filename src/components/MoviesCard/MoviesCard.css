@@ -8,27 +8,6 @@
 	border-radius: 6px;
 }
 
-.movie-card__save {
-	padding: 6px 7px;
-	position: absolute;
-	top: 14px;
-	right: 14px;
-	border-radius: 30px;
-	background-color: #313131;
-	border: none;
-	color: #fff;
-	font-weight: 400;
-	line-height: 9px;
-	font-size: 10px;
-	border-radius: 30px;
-	cursor: pointer;
-	transition: all .3s ease-in-out;
-}
-
-.movie-card__save:hover {
-	opacity: .8;
-}
-
 .movie-card__description {
 	margin-top: 14px;
 	padding: 0 14px;
