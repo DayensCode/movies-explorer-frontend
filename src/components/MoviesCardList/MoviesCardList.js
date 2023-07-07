@@ -1,8 +1,7 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import moviesData from '../../constants/list';
 
-function MoviesCardList() {
+function MoviesCardList({ moviesData }) {
 	return (
 		<ul className="movies-list">
 			{

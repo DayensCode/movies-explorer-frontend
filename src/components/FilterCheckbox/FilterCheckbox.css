@@ -27,11 +27,11 @@
 	content: '';
 	width: 36px;
 	height: 20px;
-	background-image: url('../../../images/filter-checkbox-tumbler-off.svg');
+	background-image: url('../../images/filter-checkbox-tumbler-off.svg');
 	transition: all .3s ease-in-out;
 }
 
 
 .checkbox_type_default:checked + .checkbox_type_custom::before {
-	background-image: url('../../../images/filter-checkbox-tumbler-on.svg');
+	background-image: url('../../images/filter-checkbox-tumbler-on.svg');
 }
