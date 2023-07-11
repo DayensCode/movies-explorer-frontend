@@ -1,5 +1,5 @@
 .about {
-	padding: 110px 0;
+	padding: 110px 70px;
 }
 
 .about__title {
@@ -76,4 +76,87 @@
 	font-size: 14px;
 	line-height: 17px;
 	color: #8b8b8b;
+}
+
+@media screen and (max-width: 1024px) {
+	.about {
+		padding: 90px 50px;
+	}
+
+	.about__plan {
+		gap: 30px;
+	}
+
+	.about__subtitle {
+		margin-bottom: 22px;
+	}
+
+	.about__text {
+		line-height: 18px;
+		font-size: 12px;
+	}
+
+	.about__progress {
+		margin-top: 93px;
+	}
+
+	.about__progress-column_type_first {
+		flex-basis: 140px;
+	}
+
+	.about__week-title {
+		font-weight: 400;
+		font-size: 14px;
+		color: #A0A0A0;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.about {
+		padding: 70px 18px;
+	}
+
+	.about__title {
+		padding-bottom: 28px;
+		letter-spacing: -0.72px;
+		font-size: 18px;
+	}
+
+	.about__plan {
+		margin-top: 60px;
+		flex-direction: column;
+		gap: 56px;
+	}
+
+	.about__subtitle {
+		margin-bottom: 16px;
+		letter-spacing: -0.72px;
+		font-size: 18px;
+	}
+
+	.about__text {
+		line-height: 16px;
+		font-size: 11px;
+	}
+
+	.about__progress {
+		margin-top: 60px;
+	}
+
+	.about__progress-column_type_first {
+		flex-basis: 100px;
+	}
+	
+	.about__week {
+		padding: 11px 0 11px;
+		font-size: 11px;
+	}
+
+	.about__week-title {
+		margin-top: 10px;
+		font-weight: 400;
+		font-size: 11px;
+		line-height: 1.2;
+		color: #A0A0A0;
+	}
 }
