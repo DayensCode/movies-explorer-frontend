@@ -17,3 +17,16 @@
 .movies__button:hover {
 	opacity: .8;
 }
+
+@media screen and (max-width: 1024px) {
+	.movies__button {
+		margin: 60px auto 80px;
+		width: 40%;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.movies__button {
+		width: 75%;
+	}
+}
