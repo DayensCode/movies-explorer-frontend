@@ -35,3 +35,13 @@
 .checkbox_type_default:checked + .checkbox_type_custom::before {
 	background-image: url('../../images/filter-checkbox-tumbler-on.svg');
 }
+
+@media screen and (max-width: 544px) {
+	.checkbox {
+		font-size: 11px;
+	}
+
+	.checkbox_type_custom {
+		margin-right: 13px;
+	}
+}
