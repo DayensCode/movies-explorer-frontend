@@ -1,5 +1,5 @@
 .search {
-	padding: 80px 0 39px;
+	padding: 80px 70px 39px;
 	display: flex;
 	flex-direction: column;
 	gap: 30px;
@@ -27,11 +27,33 @@
 .search__button {
 	padding: 5px 13px;
 	border: none;
-	border-radius: 4px;
+	border-radius: 3px;
 	background-color: #4285F4;
 	color: white;
 	text-align: center;
 	font-size: 12px;
 	font-weight: 500;
 	line-height: 18px;
+}
+
+@media screen and (max-width: 1024px) {
+	.search {
+		padding: 80px 30px 39px;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.search {
+		padding: 81px 14px 43px;
+		gap: 44px;
+	}
+
+	.search__form {
+		height: 44px;
+	}
+
+	.search__input {
+		padding: 13px 16px; 
+		font-size: 12px;
+	}
 }
