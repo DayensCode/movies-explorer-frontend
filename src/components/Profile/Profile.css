@@ -97,3 +97,40 @@
 .profile__logout:hover {
 	opacity: .7;
 }
+
+@media screen and (max-width: 1024px) {
+	.profile {
+		padding: 236px 0 269px;
+	}
+
+	.profile__form {
+		margin: 96px auto 0;
+	}
+
+	.profile__buttons {
+		margin-top: 210px;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.profile {
+		padding: 70px 0 40px;
+	}
+
+	.profile__form {
+		margin: 80px auto 0;
+		max-width: 260px;
+	}
+
+	.profile__buttons {
+		margin-top: 379px;
+	}
+
+	.profile__submit {
+		font-size: 12px;
+	}
+
+	.profile__logout {
+		font-size: 12px;
+	}
+}

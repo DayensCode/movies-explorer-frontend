@@ -32,7 +32,7 @@ function App() {
         <Route path="/signin" element={<Login  onLogin={handleLogin}/>}></Route>
         <Route path="/movies" element={<Layout isLogged={isLogged}><Movies /></Layout>}></Route>
         <Route path="/saved-movies" element={<Layout isLogged={isLogged}><SavedMovies /></Layout>}></Route>
-        <Route path="/profile" element={<Layout isLogged={isLogged}><Profile onLogout={handleLogout}/></Layout>}></Route>
+        <Route path="/profile" element={<Profile onLogout={handleLogout} isLogged={isLogged} />}></Route>
         <Route path="*" element={<Navigate to="/404" replace />} />
         <Route path="/404" element={<NotFound />} />
       </Routes>
