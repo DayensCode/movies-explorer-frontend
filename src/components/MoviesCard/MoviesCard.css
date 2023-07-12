@@ -36,3 +36,21 @@
 	font-weight: 400;
 	line-height: 10px;
 }
+
+@media screen and (max-width: 1024px) {
+	.movie-card__description {
+		margin-top: 25px;
+		padding: 0;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.movie-card__description {
+		margin-top: 16px;
+		padding: 0;
+	}
+
+	.movie-card__name {
+		font-size: 12px;
+	}
+}

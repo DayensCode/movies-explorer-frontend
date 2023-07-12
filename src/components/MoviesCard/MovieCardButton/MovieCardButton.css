@@ -18,3 +18,10 @@
 .movie-card-button:hover {
 	opacity: .8;
 }
+
+@media screen and (max-width: 544px) {
+	.movie-card-button {
+		top: 10px;
+		right: 10px;
+	}
+}
