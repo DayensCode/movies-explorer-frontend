@@ -108,6 +108,7 @@
 	.tech__cards {
 		margin: 50px 53px;
 		flex-wrap: wrap;
+		justify-content: normal;
 	}
 
 	.tech__card {
