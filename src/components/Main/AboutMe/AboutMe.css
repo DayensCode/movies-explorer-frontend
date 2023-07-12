@@ -1,5 +1,5 @@
 .about-me {
-	padding: 110px 0 0;
+	padding: 110px 70px 0;
 }
 
 .about-me__title {
@@ -15,7 +15,7 @@
 .about-me__info {
 	margin-top: 66px;
 	display: flex;
-	justify-content: space-between;
+	gap: 270px;
 }
 
 .about-me__bio {
@@ -59,4 +59,77 @@
 
 .about-me__photo {
 	border-radius: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+	.about-me {
+		padding: 90px 50px 0;
+	}
+
+	.about-me__info {
+		gap: 49px;
+	}
+
+	.about-me__name {
+		font-size: 40px;
+		line-height: 40px;
+		letter-spacing: -1.6px;
+	}
+
+	.about-me__occupation {
+		margin: 16px 0 0;
+		line-height: 18px;
+		font-size: 12px;
+	}
+
+	.about-me__description {
+		margin: 20px 0 0;
+		font-size: 12px;
+		line-height: 18px;
+	}
+
+	.about-me__github {
+		margin-top: 87px;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.about-me {
+		padding: 70px 14px 0;
+	}
+
+	.about-me__title {
+		padding-bottom: 28px;
+		letter-spacing: -0.72px;
+		font-size: 18px;
+		border-bottom: solid 1px #dadada;
+	}
+
+	.about-me__info {
+		margin-top: 60px;
+		flex-direction: column-reverse;
+		gap: 40px;
+	}
+
+	.about-me__name {
+		font-size: 30px;
+		line-height: 1.2;
+		letter-spacing: -1.2px;
+	}
+
+	.about-me__occupation {
+		margin: 20px 0 0;
+		line-height: 16px;
+		font-size: 11px;
+	}
+
+	.about-me__description {
+		margin: 20px 0 0;
+		font-size: 11px;
+		line-height: 16px;
+	}
+
+	.about-me__github {
+		margin-top: 40px;
+	}
 }
