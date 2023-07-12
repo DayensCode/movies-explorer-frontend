@@ -28,3 +28,17 @@
 	background-color: #3DDC84;
 	border-radius: 3px;
 }
+
+@media screen and (max-width: 544px) {
+	.login-register-menu {
+		gap: 14px;
+	}
+
+	.login-register-menu__link {
+		font-size: 10px;
+	}
+
+	.login-register-menu__link_type_login {
+		padding: 5px 12px;
+	}
+}
