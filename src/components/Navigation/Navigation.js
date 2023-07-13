@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import LoginRegisterMenu from './LoginRegisterMenu/LoginRegisterMenu';
 
 function Navigation({ isLogged }) {
-  return(
+  return (
     <nav className="navigation">
       <ul className="navigation__list">
         { isLogged
