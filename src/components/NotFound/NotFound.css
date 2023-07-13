@@ -35,3 +35,29 @@
 .not-found__link:hover {
 	opacity: .7;
 }
+
+@media screen and (max-width: 1024px) {
+	.not-found {
+		padding: 408px 0 222px;
+	}
+}
+
+@media screen and (max-width: 544px) {
+	.not-found {
+		padding: 329px 0 30px;
+	}
+
+	.not-found__title {
+		font-size: 80px;
+	}
+
+	.not-found__subtitle {
+		margin: 10px 0 0;
+		font-size: 12px;
+	}
+
+	.not-found__link {
+		margin: 284px auto 0;
+		font-size: 12px;
+	}
+}
