@@ -4,7 +4,6 @@
 	right: 0;
 	top: 0;
 	background-color: #202020;
-	width: 520px;
 	height: 63%;
 	display: flex;
 	flex-direction: column;
@@ -39,7 +38,11 @@
 	text-align: center;
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
+	gap: 28px;
+}
+
+.burger__item {
+	width: 520px;
 }
 
 .burger__link {
@@ -68,4 +71,27 @@
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 16px;
+}
+
+@media screen and (max-width: 544px) {
+	.burger {
+		padding: 144px 0 46px;
+	}
+
+	.burger__close {
+		right: 13px;
+		top: 13px;
+	}
+
+	.burger__list {
+		gap: 24px;
+	}
+
+	.burger__item {
+		width: 320px;
+	}
+
+	.burger__link {
+		padding-bottom: 7px;
+	}
 }

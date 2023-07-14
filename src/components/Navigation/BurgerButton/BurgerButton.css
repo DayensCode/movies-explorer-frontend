@@ -10,3 +10,12 @@
 .burger-button:hover {
 	opacity: .7;
 }
+
+@media screen and (max-width: 1024px) {
+	.burger-button {
+		display: block;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+}
