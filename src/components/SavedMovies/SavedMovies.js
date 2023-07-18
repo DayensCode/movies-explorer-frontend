@@ -5,10 +5,10 @@ import savedMoviesData from '../../constants/saved';
 
 function SavedMovies() {
   return (
-    <section className="saved-movies">
+    <main className="saved-movies">
       <SearchForm />
       <MoviesCardList moviesData={savedMoviesData}/>
-    </section>
+    </main>
   )
 };
 

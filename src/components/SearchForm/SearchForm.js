@@ -17,10 +17,10 @@ function SearchForm() {
 	return (
 		<div className="search">
 			<form className="search__form">
-				<input className="search__input" placeholder="Фильм" value={searchValue} onChange={handleChange}/>
+				<input className="search__input" placeholder="Фильм" value={searchValue} onChange={handleChange} required />
 				<button className="search__button" type="submit">Найти</button>
 			</form>
-			<FilterCheckbox isChecked={isShortsChecked} checkHandler={handleShortsCheck}/>
+			<FilterCheckbox isChecked={isShortsChecked} checkHandler={handleShortsCheck} />
 		</div>
 	)
 }

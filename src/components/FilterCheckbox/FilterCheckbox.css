@@ -5,14 +5,14 @@
 	margin: 0 auto;
 }
 
-.checkbox_type_default {
+.checkbox__element_type_default {
 	position: absolute;
 	width: 0;
 	height: 0;
 	opacity: 0;
 }
 
-.checkbox_type_custom {
+.checkbox__element_type_custom {
 	position: relative;
 	display: inline-block;
 	width: 36px;
@@ -22,7 +22,7 @@
 	margin-right: 12px;
 }
 
-.checkbox_type_custom::before {
+.checkbox__element_type_custom::before {
 	position: absolute;
 	content: '';
 	width: 36px;
@@ -32,7 +32,7 @@
 }
 
 
-.checkbox_type_default:checked + .checkbox_type_custom::before {
+.checkbox__element_type_default:checked + .checkbox__element_type_custom::before {
 	background-image: url('../../images/filter-checkbox-tumbler-on.svg');
 }
 
@@ -41,7 +41,7 @@
 		font-size: 11px;
 	}
 
-	.checkbox_type_custom {
+	.checkbox__element_type_custom {
 		margin-right: 13px;
 	}
 }

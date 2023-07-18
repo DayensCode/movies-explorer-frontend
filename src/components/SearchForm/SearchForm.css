@@ -34,6 +34,13 @@
 	font-size: 12px;
 	font-weight: 500;
 	line-height: 18px;
+	margin-left: 10px;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+
+.search__button:hover {
+	opacity: .7;
 }
 
 @media screen and (max-width: 1024px) {

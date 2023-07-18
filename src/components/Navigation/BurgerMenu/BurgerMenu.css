@@ -15,6 +15,7 @@
 
 .burger_opened {
 	transform: translateX(0);
+	z-index: 1;
 }
 
 .burger__close {

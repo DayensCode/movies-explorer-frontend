@@ -5,11 +5,11 @@ import moviesData from '../../constants/list';
 
 function Movies() {
   return (
-    <section className="movies">
+    <main className="movies">
       <SearchForm />
       <MoviesCardList moviesData={moviesData}/>
       <button className="movies__button" type="button">Ещё</button>
-    </section>
+    </main>
   )
 };
 

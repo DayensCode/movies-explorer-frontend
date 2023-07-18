@@ -6,7 +6,7 @@ const moviesData = [
 		duration: 77,
 		year: '2023',
 		description: 'Описание фильма',
-		image: 'https://mcdn.tvzvezda.ru/storage/news_other_images/2022/07/11/c840c3540b7e4de6a4f0d5485c767753.thumbnail_360.jpg',
+		image: 'https://pw.artfile.me/wallpaper/03-03-2022/360x201/kino-filmy-the-untamed-the-untamed-neukr-1599603.jpg',
 		nameRU: 'Название 1',
 		nameEN: 'Name 1',
 	},

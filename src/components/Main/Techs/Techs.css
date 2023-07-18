@@ -78,6 +78,12 @@
 	}
 }
 
+@media screen and (max-width: 720px) {
+	.tech__card {
+		font-size: 10px;
+	}
+}
+
 @media screen and (max-width: 544px) {
 	.techs {
 		padding: 70px 18px;
