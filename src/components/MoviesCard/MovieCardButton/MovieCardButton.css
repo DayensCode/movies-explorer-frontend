@@ -1,0 +1,31 @@
+.movie-card-button {
+	padding: 6px 7px;
+	position: absolute;
+	top: 14px;
+	right: 14px;
+	border-radius: 30px;
+	background-color: #313131;
+	border: none;
+	color: #fff;
+	font-weight: 400;
+	line-height: 9px;
+	font-size: 10px;
+	border-radius: 30px;
+	cursor: pointer;
+	transition: all .3s ease-in-out;
+}
+
+.movie-card-button_type_save {
+	background-color: #ee3465;
+}
+
+.movie-card-button:hover {
+	opacity: .8;
+}
+
+@media screen and (max-width: 544px) {
+	.movie-card-button {
+		top: 10px;
+		right: 10px;
+	}
+}
