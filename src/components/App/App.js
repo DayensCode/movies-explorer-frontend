@@ -14,13 +14,7 @@ import Layout from '../Layout/Layout';
 function App() {
   const [isLogged, setIsLogged] = useState(false);
   const navigate = useNavigate();
-  function handleRegistration() {
-    navigate("/signin", {replace: true});
-  }
-  function handleLogin() {
-    setIsLogged(true);
-    navigate("/movies", {replace: true});
-  }
+
   function handleLogout() {
     setIsLogged(false);
     navigate("/signin", {replace: true});
@@ -29,8 +23,8 @@ function App() {
     <div className="body">
       <Routes>
         <Route path="/" element={<Layout isLogged={isLogged}><Main /></Layout>}></Route>
-        <Route path="/signup" element={<Register onRegister={handleRegistration}/>}></Route>
-        <Route path="/signin" element={<Login  onLogin={handleLogin}/>}></Route>
+        <Route path="/signup" element={<Register />}></Route>
+        <Route path="/signin" element={<Login setLoginStatus={setIsLogged}/>}></Route>
         <Route path="/movies" element={<Layout isLogged={isLogged}><Movies /></Layout>}></Route>
         <Route path="/saved-movies" element={<Layout isLogged={isLogged}><SavedMovies /></Layout>}></Route>
         <Route path="/profile" element={<Profile onLogout={handleLogout} isLogged={isLogged} />}></Route>
