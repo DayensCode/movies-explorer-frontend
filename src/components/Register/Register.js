@@ -5,6 +5,7 @@ import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
 
 function Register() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({});
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -16,8 +17,6 @@ function Register() {
     },
     [setValues]
   );
-
-  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();

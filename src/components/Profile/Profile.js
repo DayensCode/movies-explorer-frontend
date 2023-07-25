@@ -1,39 +1,40 @@
 import "./Profile.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Profile({ onLogout, isLogged }) {
-  const [user, setUser] = useState({
-    name: "Виталий",
-    email: "pochta@yandex.ru",
-  });
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log("Данные формы отправленны");
-  }
-  function handleChange({ target }) {
+function Profile({ isLogged, setLoginStatus }) {
+  const navigate = useNavigate();
+  const profileContext = useContext(CurrentUserContext);
+  const [values, setValues] = useState({ name: profileContext.name || "", email: profileContext.email || "" });
+  const handleChange = ({ target }) => {
     const { name, value } = target;
-    setUser({ ...user, [name]: value });
-  }
+    setValues({ ...values, [name]: value });
+  };
+
   function handleLogout() {
-    onLogout();
+    localStorage.clear();
+    setLoginStatus(false);
+    navigate("/", { replace: true });
   }
+
   return (
     <>
       <Header isLogged={isLogged} />
       <section className="profile">
-        <h2 className="profile__title">{`Привет, ${user.name}!`}</h2>
-        <form className="profile__form" onSubmit={handleSubmit}>
+        <h2 className="profile__title">{`Привет, ${profileContext.name}!`}</h2>
+        <form className="profile__form">
           <label className="profile__container">
             <span className="profile__label">Имя</span>
             <input
               className="profile__input"
               type="text"
               name="name"
-              placeholder="Имя"
+              placeholder="Укажите имя"
               minLength={2}
               maxLength={30}
-              value={user.name || ""}
+              value={profileContext.name || ""}
               onChange={handleChange}
             />
           </label>
@@ -44,10 +45,10 @@ function Profile({ onLogout, isLogged }) {
               className="profile__input"
               type="email"
               name="email"
-              placeholder="E-mail"
+              placeholder="Укажите email"
               minLength={2}
               maxLength={30}
-              value={user.email || ""}
+              value={profileContext.email || ""}
               onChange={handleChange}
             />
           </label>
@@ -70,7 +71,7 @@ function Profile({ onLogout, isLogged }) {
         </div>
       </section>
     </>
-  )
-};
+  );
+}
 
 export default Profile;

@@ -5,6 +5,7 @@ import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
 
 function Login({ setLoginStatus }) {
+  const navigate = useNavigate();
   const [values, setValues] = useState({});
   const handleChange = ({ target }) => {
     const { name, value } = target;
@@ -17,8 +18,6 @@ function Login({ setLoginStatus }) {
     [setValues]
   );
 
-  const navigate = useNavigate();
-
   function handleSubmit(e) {
     e.preventDefault();
     console.log("Значения всех инпутов формы логина: ", values);
@@ -26,6 +25,7 @@ function Login({ setLoginStatus }) {
       .signin(values)
       .then((userData) => {
         console.log("Пользовательские данные при логине: ", userData);
+        localStorage.setItem("jwt", userData.token);
         setLoginStatus(true);
         navigate("/movies", { replace: true });
       })

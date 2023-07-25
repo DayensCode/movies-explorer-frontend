@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./MoviesCard.css";
+import { moviesUrl } from "../../config/config";
 import MovieCardButton from "./MovieCardButton/MovieCardButton";
 import { convertingDuration } from "../../utils/utils";
 
@@ -15,13 +16,20 @@ function MoviesCard({ movieData }) {
   }
   return (
     <li className="movie-card">
-      <img
-        className="movie-card__image"
-        alt={movieData.nameRu}
-        src={movieData.image}
-      />
+      <a
+        className="movie-card__trailer"
+        href={movieData.trailerLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          className="movie-card__image"
+          alt={movieData.nameRu}
+          src={`${moviesUrl}/${movieData.image.url}`}
+        />
+      </a>
       <MovieCardButton
-        type={ isSave ? "movie-card-button_type_save" : null }
+        type={isSave ? "movie-card-button_type_save" : null}
         onClickHandler={
           pathname === "/movies" ? saveMovieHandler : deleteMovieHandler
         }

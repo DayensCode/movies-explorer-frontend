@@ -1,13 +1,13 @@
 import './SavedMovies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import savedMoviesData from '../../constants/saved';
+//import savedMoviesData from '../../constants/saved';
 
 function SavedMovies() {
   return (
     <main className="saved-movies">
       <SearchForm />
-      <MoviesCardList moviesData={savedMoviesData}/>
+      <MoviesCardList /*moviesData={savedMoviesData}*/ />
     </main>
   )
 };
