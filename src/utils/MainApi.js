@@ -50,6 +50,23 @@ class MainApi {
       return this._checkResponseStatus(res, "jwtCheck");
     });
   }
+
+  edit(name, email) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify({
+        "name": name,
+        "email": email,
+      })
+    }).then((res) => {
+      return this._checkResponseStatus(res, "edit");
+    });
+  }
 }
 
 export const mainApi = new MainApi(mainApiOptions);

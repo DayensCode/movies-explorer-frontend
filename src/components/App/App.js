@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -14,6 +14,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { mainApi } from "../../utils/MainApi";
 
 function App() {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [isLogged, setIsLogged] = useState(false);
 
@@ -37,6 +38,20 @@ function App() {
     handleJwtCheck();
     return () => {};
   }, []);
+
+  function handleUserEdit(name, email) {
+    return mainApi
+      .edit(name, email)
+      .then((res) => {
+        setCurrentUser({
+          ...currentUser,
+          ...res,
+          ...res.data
+        })
+        navigate("/movies", { replace: true })
+      })
+      .catch((err) => console.log(err))
+  }
 
   return (
     <div className="body">
@@ -74,7 +89,7 @@ function App() {
           <Route
             path="/profile"
             element={
-              <Profile isLogged={isLogged} setLoginStatus={setIsLogged} />
+              <Profile isLogged={isLogged} setLoginStatus={setIsLogged} onEdit={handleUserEdit}/>
             }
           ></Route>
           <Route path="*" element={<Navigate to="/404" replace />} />
