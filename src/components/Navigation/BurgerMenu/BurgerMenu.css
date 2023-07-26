@@ -57,10 +57,6 @@
 	line-height: 1.2;
 }
 
-.burger__link.active {
-	border-bottom: 2px solid #fff;
-}
-
 .burger__link:hover{
 	opacity: .7;
 }

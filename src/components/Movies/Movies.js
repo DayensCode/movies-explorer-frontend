@@ -20,6 +20,10 @@ function Movies() {
       .catch(() => console.log("Ошибка в getMovies"));
   }
 
+  useEffect(() => {
+    getMovies();
+  }, [])
+
     //все про поиск
     const [searchOptions, setSearchOptions] = useState({query: ""});
     const [searchedMovies, setSearchedMovies] = useState([]);
