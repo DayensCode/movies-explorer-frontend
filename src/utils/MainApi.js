@@ -38,13 +38,13 @@ class MainApi {
     });
   }
 
-  jwtCheck() {
+  jwtCheck(token) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then((res) => {
       return this._checkResponseStatus(res, "jwtCheck");

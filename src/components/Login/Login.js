@@ -24,7 +24,7 @@ function Login({ setLoginStatus }) {
     mainApi
       .signin(values)
       .then((userData) => {
-        console.log("Пользовательские данные при логине: ", userData);
+        console.log("Выданный логин: ", userData);
         localStorage.setItem("jwt", userData.token);
         setLoginStatus(true);
         navigate("/movies", { replace: true });
