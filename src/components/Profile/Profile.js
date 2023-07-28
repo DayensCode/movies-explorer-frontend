@@ -6,8 +6,10 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Profile({ isLogged, setLoginStatus, onEdit }) {
   const navigate = useNavigate();
-  const profileContext = useContext(CurrentUserContext);
+  const  {currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  let profileContext = currentUser;
   const [values, setValues] = useState({ name: profileContext.name || "", email: profileContext.email || "" });
+
   const handleChange = ({ target }) => {
     const { name, value } = target;
     setValues({ ...values, [name]: value });
@@ -41,6 +43,7 @@ function Profile({ isLogged, setLoginStatus, onEdit }) {
     localStorage.clear();
     setLoginStatus(false);
     navigate("/", { replace: true });
+    setCurrentUser({});
   }
 
   function handleEditProfile() {

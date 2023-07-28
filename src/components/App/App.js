@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
@@ -18,23 +17,25 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [isLogged, setIsLogged] = useState(false);
 
+  const value = useMemo(() => ({currentUser, setCurrentUser}), [currentUser]);
+
   useEffect(() => {
-    function handleJwtCheck() {
-      const jwt = localStorage.getItem("jwt");
-      if (jwt) {
-        return mainApi
-          .jwtCheck(jwt)
-          .then((res) => {
-            setCurrentUser({
-              ...currentUser,
-              ...res,
-            });
-          })
-          .catch(() => {
-            console.log("Oшибка в handleJwtCheck");
+  function handleJwtCheck() {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      return mainApi
+        .jwtCheck(jwt)
+        .then((res) => {
+          setCurrentUser({
+            ...currentUser,
+            ...res,
           });
-      }
+        })
+        .catch(() => {
+          console.log("Oшибка в handleJwtCheck");
+        });
     }
+  }
     handleJwtCheck();
     return () => {};
   }, []);
@@ -55,7 +56,7 @@ function App() {
 
   return (
     <div className="body">
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={value}>
         <Routes>
           <Route
             path="/"

@@ -1,10 +1,13 @@
 import "./Login.css";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Login({ setLoginStatus }) {
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  
   const navigate = useNavigate();
   const [values, setValues] = useState({});
   const handleChange = ({ target }) => {
@@ -25,9 +28,14 @@ function Login({ setLoginStatus }) {
       .signin(values)
       .then((userData) => {
         console.log("Выданный токен: ", userData);
+        localStorage.clear();
         localStorage.setItem("jwt", userData.token);
-        setLoginStatus(true);
-        navigate("/movies", { replace: true });
+        return mainApi.jwtCheck(localStorage.getItem("jwt"))
+                  .then((res) => {
+                    setCurrentUser(res);
+                    setLoginStatus(true);
+                    navigate("/movies", { replace: true });
+                  })
       })
       .catch((err) => console.log(err));
     resetForm();
