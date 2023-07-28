@@ -8,7 +8,7 @@ export function convertingDuration(duration) {
 }
 
 // все про фильтрацию
-function querryFilter(movie, query) {
+function queryFilter(movie, query) {
 	const correctQuery = query.toLowerCase(); 
 	const check = movie.nameRU.toLowerCase().includes(correctQuery);
 	console.log("Результат проверки:", check);
@@ -24,5 +24,5 @@ function durationFilter(duration, shorts, correctDuration = 40) {
 }
 
 export function filterMovies(movie, query, shorts) {
-	return querryFilter(movie, query) && durationFilter(movie.duration, shorts);
+	return queryFilter(movie, query) && durationFilter(movie.duration, shorts);
 }
