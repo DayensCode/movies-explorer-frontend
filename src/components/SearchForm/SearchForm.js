@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearch, searchOptions }) {
-	const [searchValue, setSearchValue] = useState(searchOptions.query);
+function SearchForm({ onSearch }) {
+	const [searchQuery, setSearchQuery] = useState("");
+	const [searchValue, setSearchValue] = useState(searchQuery);
 	const [isShortsChecked, setIsShortsChecked] = useState(false);
 
 	function handleChange({target}) {
@@ -11,12 +12,13 @@ function SearchForm({ onSearch, searchOptions }) {
 	}
 
 	const handleShortsCheck = () => {
+		onSearch(searchValue, !isShortsChecked);
 		setIsShortsChecked(!isShortsChecked);
 	}
 
 	function handleSearch(e) {
 		e.preventDefault();
-		onSearch(searchValue);
+		onSearch(searchValue, isShortsChecked);
 	}
 
 	return (

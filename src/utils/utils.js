@@ -14,6 +14,15 @@ function querryFilter(movie, query) {
 	console.log("Результат проверки:", check);
 	return check;
 }
-export function filterMovies(movie, query) {
-	return querryFilter(movie, query);
+
+function durationFilter(duration, shorts, correctDuration = 40) {
+	if (shorts && (duration <= correctDuration)) {
+		return true;
+	} else {
+		return (!shorts);
+	}
+}
+
+export function filterMovies(movie, query, shorts) {
+	return querryFilter(movie, query) && durationFilter(movie.duration, shorts);
 }

@@ -15,32 +15,29 @@ function Movies() {
     return moviesApi.getAllMovies()
       .then((res) => {
         localStorage.setItem("movies", JSON.stringify(res));
-        setMovies(res);
       })
       .catch(() => console.log("Ошибка в getMovies"));
   }
 
   useEffect(() => {
+    setMovies([]);
     getMovies();
   }, [])
 
     //все про поиск
-    const [searchOptions, setSearchOptions] = useState({query: ""});
-    const [searchedMovies, setSearchedMovies] = useState([]);
-
-
-    function searchMovies(q) {
-      if (q === '') return getMovies(); //если поисковой запрос пустой отрисовываются все фильмы
+    function searchMovies(q, s) {
+      if (q === '') return setMovies([]); //если пользователь ещё ничего не искал фильмы не отображаются
       
-      console.log("Поисковой запрос:", q);
-      const currentSearchedResult = movies.filter(movie => filterMovies(movie, q));
+      console.log("Поисковой запрос:", q, s);
+      let allLocalMovies = JSON.parse(localStorage.getItem("movies"));
+      const currentSearchedResult = allLocalMovies.filter(movie => filterMovies(movie, q, s));
       console.log("Найденные совпадения:", currentSearchedResult);
       setMovies(currentSearchedResult);
     }
 
   return (
     <main className="movies">
-      <SearchForm onSearch={searchMovies} searchOptions={searchOptions} />
+      <SearchForm onSearch={searchMovies} />
       <MoviesCardList moviesData={movies} />
       <button className="movies__button" type="button">
         Ещё
