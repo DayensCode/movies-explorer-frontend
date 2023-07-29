@@ -9,6 +9,7 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Layout from "../Layout/Layout";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { mainApi } from "../../utils/MainApi";
 
@@ -16,6 +17,10 @@ function App() {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
   const [isLogged, setIsLogged] = useState(false);
+  const [modal, setModal] = useState({ statusOk: true, text: "", isOpen: false });
+  function handleCloseModal() {
+    setModal({ ...modal, isOpen: false });
+  }
 
   const value = useMemo(() => ({currentUser, setCurrentUser}), [currentUser]);
 
@@ -75,7 +80,7 @@ function App() {
             path="/movies"
             element={
               <Layout isLogged={isLogged}>
-                <Movies />
+                <Movies setModal={setModal} closeModal={handleCloseModal}/>
               </Layout>
             }
           ></Route>
@@ -97,6 +102,7 @@ function App() {
           <Route path="/404" element={<NotFound />} />
         </Routes>
       </CurrentUserContext.Provider>
+      <InfoTooltip statusOk={modal.statusOk} text={modal.text} isOpen={modal.isOpen} onClose={handleCloseModal}/>
     </div>
   );
 }

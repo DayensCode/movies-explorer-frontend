@@ -6,7 +6,7 @@ import { moviesApi } from "../../utils/Movies.Api";
 import { filterMovies } from "../../utils/utils";
 import Preloader from "../Preloader/Preloader";
 
-function Movies() {
+function Movies({ setModal, closeModal }) {
   const [isLoadind, setIsLoading] = useState(false);
   const [movies, setMovies] = useState(() => {
     const arr = JSON.parse(localStorage.getItem("movies")) || [];
@@ -19,7 +19,7 @@ function Movies() {
       .then((res) => {
         localStorage.setItem("movies", JSON.stringify(res));
       })
-      .catch(() => console.log("Ошибка в getMovies"))
+      .catch((err) => setModal({ text: err, statusOk: false, isOpen: true }))
       .finally(() => setIsLoading(false))
   }
 
@@ -35,7 +35,6 @@ function Movies() {
     function searchMovies(q, s) {
       if (q === "") {
         setIsEmptyQuery(true);
-        setIsNothingFound(true);
         return setMovies([]);
       } //если пользователь ещё ничего не искал фильмы не отображаются
       
@@ -44,11 +43,12 @@ function Movies() {
       let allLocalMovies = JSON.parse(localStorage.getItem("movies"));
       const currentSearchedResult = allLocalMovies.filter(movie => filterMovies(movie, q, s));
       console.log("Найденные совпадения:", currentSearchedResult);
+      if ( currentSearchedResult.length === 0) {setIsNothingFound(true)}
       setMovies(currentSearchedResult);
     }
 
   return (
-    <main className="movies">
+    <main className="movies" onClick={closeModal}>
       <SearchForm onSearch={searchMovies} emptyQuery={isEmptyQuery} />
       { isLoadind
         ? <Preloader />
