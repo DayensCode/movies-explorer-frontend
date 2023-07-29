@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearch }) {
+function SearchForm({ onSearch, emptyQuery }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [searchValue, setSearchValue] = useState(searchQuery);
 	const [isShortsChecked, setIsShortsChecked] = useState(false);
@@ -27,6 +27,7 @@ function SearchForm({ onSearch }) {
 				<input className="search__input" placeholder="Фильм" value={searchValue} onChange={handleChange} required />
 				<button className="search__button" type="submit" onClick={handleSearch}>Найти</button>
 			</form>
+			{emptyQuery ? <span className="search__validation">Нужно ввести ключевое слово</span> : null}
 			<FilterCheckbox isChecked={isShortsChecked} checkHandler={handleShortsCheck} />
 		</div>
 	)
