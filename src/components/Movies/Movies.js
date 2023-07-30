@@ -1,5 +1,5 @@
 import "./Movies.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/Movies.Api";
@@ -13,6 +13,7 @@ function Movies({ setModal, closeModal }) {
     return arr;
   });
   const [correctNumber, setCorrectNumber] = useState(getCorrectNumberMovies());
+  const [displayingMoreButton, setDisplayingMoreButton] = useState(true);
 
   function getMovies() {
     setIsLoading(true);
@@ -44,6 +45,7 @@ function Movies({ setModal, closeModal }) {
       let allLocalMovies = JSON.parse(localStorage.getItem("movies"));
       const currentSearchedResult = allLocalMovies.filter(movie => filterMovies(movie, querry, shorts));
 
+      console.log("Найденные после фильтрации фильмы:", currentSearchedResult);
       setSearchedResult(currentSearchedResult);
       let newNumberOfMovies = currentSearchedResult.slice(0, correctNumber.defaultMovies);
       if ( currentSearchedResult.length === 0) {
@@ -54,11 +56,25 @@ function Movies({ setModal, closeModal }) {
       setMovies(newNumberOfMovies);
     }
 
-    function handlerMoreMovies() {
-      console.log(searchedResult);
+    function handleMoreMovies() {
       const moreMovies = searchedResult.slice(movies.length, movies.length + correctNumber.extraMovies);
       setMovies([...movies, ...moreMovies]);
     }
+
+    useEffect(() => {
+      setDisplayingMoreButton(movies.length < searchedResult.length);
+    }, [searchedResult, movies])
+
+      // событие ресайза
+  const resize = useCallback(() => {
+    setCorrectNumber(getCorrectNumberMovies());
+  }, [correctNumber]);
+
+  useEffect(() => {
+    window.addEventListener("resize", resize);
+    console.log("После ресайза: ", correctNumber);
+    return () => window.removeEventListener("resize", resize);
+  }, [resize]);
 
   return (
     <main className="movies" onClick={closeModal}>
@@ -68,9 +84,10 @@ function Movies({ setModal, closeModal }) {
         : <MoviesCardList moviesData={movies} />
       }
       {isNothingFound ? <span className="movies__nothing">Ничего не найдено</span> : null}
-      <button className="movies__button" type="button" onClick={handlerMoreMovies}>
-        Ещё
-      </button>
+      { displayingMoreButton
+        ? <button className="movies__button" type="button" onClick={handleMoreMovies}>Ещё</button>
+        : null
+      }
     </main>
   );
 }
