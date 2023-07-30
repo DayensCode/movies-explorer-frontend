@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/Movies.Api";
-import { filterMovies } from "../../utils/utils";
+import { filterMovies, getCorrectNumberMovies } from "../../utils/utils";
 import Preloader from "../Preloader/Preloader";
 
 function Movies({ setModal, closeModal }) {
@@ -12,6 +12,7 @@ function Movies({ setModal, closeModal }) {
     const arr = JSON.parse(localStorage.getItem("movies")) || [];
     return arr;
   });
+  const [correctNumber, setCorrectNumber] = useState(getCorrectNumberMovies());
 
   function getMovies() {
     setIsLoading(true);
@@ -31,20 +32,32 @@ function Movies({ setModal, closeModal }) {
     //все про поиск
     const [isEmptyQuery, setIsEmptyQuery] = useState(false);
     const [isNothingFound, setIsNothingFound] = useState(false);
+    const [searchedResult, setSearchedResult] = useState([]);
 
-    function searchMovies(q, s) {
-      if (q === "") {
+    function searchMovies(querry, shorts) {
+      if (querry === "") {
         setIsEmptyQuery(true);
         return setMovies([]);
       } //если пользователь ещё ничего не искал фильмы не отображаются
       
-      console.log("Поисковой запрос:", q, s);
       setIsEmptyQuery(false);
       let allLocalMovies = JSON.parse(localStorage.getItem("movies"));
-      const currentSearchedResult = allLocalMovies.filter(movie => filterMovies(movie, q, s));
-      console.log("Найденные совпадения:", currentSearchedResult);
-      if ( currentSearchedResult.length === 0) {setIsNothingFound(true)}
-      setMovies(currentSearchedResult);
+      const currentSearchedResult = allLocalMovies.filter(movie => filterMovies(movie, querry, shorts));
+
+      setSearchedResult(currentSearchedResult);
+      let newNumberOfMovies = currentSearchedResult.slice(0, correctNumber.defaultMovies);
+      if ( currentSearchedResult.length === 0) {
+        setIsNothingFound(true);
+      } else if ( currentSearchedResult.length !== 0) {
+        setIsNothingFound(false);
+      }
+      setMovies(newNumberOfMovies);
+    }
+
+    function handlerMoreMovies() {
+      console.log(searchedResult);
+      const moreMovies = searchedResult.slice(movies.length, movies.length + correctNumber.extraMovies);
+      setMovies([...movies, ...moreMovies]);
     }
 
   return (
@@ -55,7 +68,7 @@ function Movies({ setModal, closeModal }) {
         : <MoviesCardList moviesData={movies} />
       }
       {isNothingFound ? <span className="movies__nothing">Ничего не найдено</span> : null}
-      <button className="movies__button" type="button">
+      <button className="movies__button" type="button" onClick={handlerMoreMovies}>
         Ещё
       </button>
     </main>
