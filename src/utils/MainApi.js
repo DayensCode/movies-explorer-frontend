@@ -67,6 +67,19 @@ class MainApi {
       return this._checkResponseStatus(res, "edit");
     });
   }
+
+  save(movieData) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(movieData)
+    }).then((res) => {
+      return this._checkResponseStatus(res, "save");
+    });
+  }
 }
 
 export const mainApi = new MainApi(mainApiOptions);

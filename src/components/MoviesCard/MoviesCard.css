@@ -26,6 +26,7 @@
 .movie-card__name {
 	margin: 0;
 	color: #fff;
+	max-width: 280px;
 	font-size: 13px;
 	font-weight: 500;
 	line-height: 1.2;
@@ -76,5 +77,6 @@
 
 	.movie-card__name {
 		font-size: 12px;
+		max-width: 250px;
 	}
 }

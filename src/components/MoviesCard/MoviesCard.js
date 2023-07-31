@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import "./MoviesCard.css";
 import { moviesUrl } from "../../config/config";
 import MovieCardButton from "./MovieCardButton/MovieCardButton";
 import { convertingDuration } from "../../utils/utils";
 
 function MoviesCard({ movieData }) {
-  const { pathname } = useLocation();
   const [isSave, setIsSave] = useState(false);
   function saveMovieHandler() {
     setIsSave(true);
@@ -31,12 +29,9 @@ function MoviesCard({ movieData }) {
       <MovieCardButton
         type={isSave ? "movie-card-button_type_save" : null}
         onClickHandler={
-          pathname === "/movies" ? saveMovieHandler : deleteMovieHandler
+          isSave ? deleteMovieHandler : saveMovieHandler
         }
       >
-        {pathname === "/movies" && !isSave ? "Сохранить" : null}
-        {pathname === "/movies" && isSave ? "✔" : null}
-        {pathname === "/movies" ? null : "🞪"}
       </MovieCardButton>
       <div className="movie-card__description">
         <p className="movie-card__name">{movieData.nameRU}</p>
