@@ -5,9 +5,8 @@ import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Login({ setLoginStatus }) {
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  
+function Login({ onLogin }) {
+
   const navigate = useNavigate();
   const [values, setValues] = useState({});
   const handleChange = ({ target }) => {
@@ -22,23 +21,9 @@ function Login({ setLoginStatus }) {
   );
 
   function handleSubmit(e) {
-    e.preventDefault();
-    console.log("Значения всех инпутов формы логина: ", values);
-    mainApi
-      .signin(values)
-      .then((userData) => {
-        console.log("Выданный токен: ", userData);
-        localStorage.clear();
-        localStorage.setItem("jwt", userData.token);
-        return mainApi.jwtCheck(localStorage.getItem("jwt"))
-                  .then((res) => {
-                    setCurrentUser(res);
-                    setLoginStatus(true);
-                    navigate("/movies", { replace: true });
-                  })
-      })
-      .catch((err) => console.log(err));
-    resetForm();
+    e.preventDefault()
+    onLogin(values)
+      .catch((err) => console.log(err))
   }
 
   return (

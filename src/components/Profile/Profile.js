@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Profile({ isLogged, setLoginStatus, onEdit }) {
+function Profile({ isLogged, setLoginStatus, onEdit, onLogout }) {
   const navigate = useNavigate();
   const  {currentUser, setCurrentUser } = useContext(CurrentUserContext);
   let profileContext = currentUser;
@@ -39,12 +39,12 @@ function Profile({ isLogged, setLoginStatus, onEdit }) {
     setEditButton(true);
   }
 
-  function handleLogout() {
-    localStorage.clear();
-    setLoginStatus(false);
-    navigate("/", { replace: true });
-    setCurrentUser({});
-  }
+  // function handleLogout() {
+  //   localStorage.clear();
+  //   setLoginStatus(false);
+  //   navigate("/", { replace: true });
+  //   setCurrentUser({});
+  // }
 
   function handleEditProfile() {
     return onEdit(values.name, values.email);
@@ -101,7 +101,7 @@ function Profile({ isLogged, setLoginStatus, onEdit }) {
           <button
             className={editButton ? "profile__logout profile__logout_hidden": "profile__logout"}
             type="button"
-            onClick={handleLogout}
+            onClick={onLogout}
           >
             Выйти из аккаунта
           </button>

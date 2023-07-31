@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
 
-function Register() {
+
+function Register({ onLogin }) {
   const navigate = useNavigate();
   const [values, setValues] = useState({});
   const handleChange = ({ target }) => {
@@ -25,7 +26,8 @@ function Register() {
       .signup(values)
       .then((userData) => {
         console.log("Пользовательские данные при регистрации: ", userData);
-        navigate("/signin", { replace: true });
+        const { email, password } = values
+        onLogin({ email, password })
       })
       .catch((err) => console.log(err));
     resetForm();
