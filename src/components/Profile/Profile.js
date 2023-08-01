@@ -1,54 +1,62 @@
 import "./Profile.css";
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { regexEmail } from "../../config/config";
 
-function Profile({ isLogged, setLoginStatus, onEdit, onLogout }) {
-  const navigate = useNavigate();
-  const  {currentUser, setCurrentUser } = useContext(CurrentUserContext);
-  let profileContext = currentUser;
+function Profile({ isLogged, onEdit, onLogout }) {
+  const profileContext = useContext(CurrentUserContext)
   const [values, setValues] = useState({ name: profileContext.name || "", email: profileContext.email || "" });
-
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setValues({ ...values, [name]: value });
-    setNameError(target.validationMessage);
-    setNameValidation(target.validity.valid);
-    setEmailError(target.validationMessage);
-    setEmailValidation(target.validity.valid);
-  };
-
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [disabledInput, setDisabledInput] = useState(true);
   const [nameValidation, setNameValidation] = useState(true);
   const [emailValidation, setEmailValidation] = useState(true);
-
   const [editButton, setEditButton] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+  const [totalDisabled, setTotalDisabled] = useState(false)
 
   const disabledButton = nameValidation && emailValidation;
-  useEffect(() => {
-    if (profileContext.name === values.name && profileContext.email === values.email) {
-      setNameValidation(false);
-    } else setNameValidation(true)
-  }, [values.name, values.email])
 
   function handleAvailableButton() {
     setDisabledInput(false);
     setEditButton(true);
   }
 
-  // function handleLogout() {
-  //   localStorage.clear();
-  //   setLoginStatus(false);
-  //   navigate("/", { replace: true });
-  //   setCurrentUser({});
-  // }
-
   function handleEditProfile() {
     return onEdit(values.name, values.email);
   }
+
+  const handleChangeName = ({ target }) => {
+    const { name, value } = target;
+    setValues({ ...values, [name]: value });
+    setNameError(target.validationMessage);
+    setNameValidation(target.validity.valid);
+  };
+
+  const handleChangeEmail = ({ target }) => {
+    const { name, value } = target;
+    setValues({ ...values, [name]: value });
+    setEmailError(target.validationMessage);
+    setEmailValidation(target.validity.valid);
+  };
+
+  const isEmailValid = regexEmail.test(values.email);
+
+  useEffect(() => {
+    const isAvailable = isButtonDisabled || !disabledButton || !isEmailValid
+    setTotalDisabled(isAvailable)
+  }, [values, isButtonDisabled, disabledButton])
+
+
+  useEffect(() => {
+    if (profileContext.name === values.name && profileContext.email === values.email) {
+      setIsButtonDisabled(true)
+    } else {
+      setIsButtonDisabled(false)
+    }
+  }, [values, profileContext])
+
 
   return (
     <>
@@ -66,7 +74,7 @@ function Profile({ isLogged, setLoginStatus, onEdit, onLogout }) {
               minLength={2}
               maxLength={30}
               value={values.name || ""}
-              onChange={handleChange}
+              onChange={handleChangeName}
               disabled={disabledInput}
             />
           </label>
@@ -82,7 +90,7 @@ function Profile({ isLogged, setLoginStatus, onEdit, onLogout }) {
               minLength={2}
               maxLength={30}
               value={values.email || ""}
-              onChange={handleChange}
+              onChange={handleChangeEmail}
               disabled={disabledInput}
             />
           </label>
@@ -92,14 +100,14 @@ function Profile({ isLogged, setLoginStatus, onEdit, onLogout }) {
           {editButton
             ?
             <>
-            <span className='profile__submit-error profile__submit-error_hidden'>При обновлении профиля произошла ошибка</span>
-            <button disabled={!disabledButton} className="profile__save" type="button" onClick={handleEditProfile}>Сохранить</button>
+              <span className="profile__submit-error profile__submit-error_hidden">При обновлении профиля произошла ошибка</span>
+              <button disabled={totalDisabled} className="profile__save" type="button" onClick={handleEditProfile}>Сохранить</button>
             </>
             :
             <button className="profile__submit" form="profile__form" type="submit" onClick={handleAvailableButton}>Редактировать</button>
           }
           <button
-            className={editButton ? "profile__logout profile__logout_hidden": "profile__logout"}
+            className={editButton ? "profile__logout profile__logout_hidden" : "profile__logout"}
             type="button"
             onClick={onLogout}
           >

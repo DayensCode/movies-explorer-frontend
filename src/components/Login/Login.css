@@ -19,21 +19,26 @@
 }
 
 .login__label {
+	margin-top: 10px;
 	color: #8B8B8B;
 	font-weight: 400;
 	line-height: 1.2;
 	font-size: 10px;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+}
+
+.login__label:first-of-type {
+	margin-top: 0;
 }
 
 .login__input {
+	margin-top: 10px;
+	margin-bottom: 10px;
 	border-radius: 8px;
 	background-color: #2F2F2F;
 	border: none;
 	padding: 15px;
-	margin-bottom: 20px;
 	color: #FFF;
 	font-weight: 400;
 	line-height: 1.2;
@@ -42,6 +47,13 @@
 
 .login__input:focus {
 	outline: 1px solid #4285F4;
+}
+
+.login__error {
+	color: #EE3465;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.2;
 }
 
 .login__submit {
@@ -63,6 +75,15 @@
 
 .login__submit:hover {
 	opacity: .8;
+}
+
+.login__submit[disabled] {
+	opacity: .3;
+}
+
+.login__submit[disabled]:hover {
+	opacity: .3;
+	cursor: not-allowed;
 }
 
 .login__register-text {

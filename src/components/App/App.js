@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import Main from "../Main/Main";
@@ -26,8 +26,6 @@ function App() {
     setModal({ ...modal, isOpen: false });
   }
 
-  const value = useMemo(() => ({ currentUser, setCurrentUser }), [currentUser]);
-
   useEffect(() => {
     function handleJwtCheck() {
       const jwt = localStorage.getItem("jwt");
@@ -35,7 +33,7 @@ function App() {
         return mainApi
           .jwtCheck(jwt)
           .then((res) => {
-            setIsLogged(true)
+            setIsLogged(true);
             setCurrentUser({
               ...currentUser,
               ...res,
@@ -55,16 +53,18 @@ function App() {
     return mainApi.signin(values)
       .then((userData) => {
         localStorage.setItem("jwt", userData.token);
-        setIsLogged(true)
+        setIsLogged(true);
         return mainApi.jwtCheck(userData.token)
           .then((res) => {
             setCurrentUser(res);
-            navigate("/movies", { replace: true })
+            navigate("/movies", { replace: true });
           })
       })
   }
 
   function handleUserEdit(name, email) {
+    if (currentUser.name === name && currentUser.email === email) return // сетапим InfoToolTip
+
     return mainApi
       .edit(name, email)
       .then((res) => {
@@ -72,20 +72,20 @@ function App() {
           ...currentUser,
           ...res,
           ...res.data
-        })
-        navigate("/profile", { replace: true })
+        });
+        navigate("/profile", { replace: true });
       })
       .catch((err) => console.log(err))
   }
 
   function handleLogout() {
-    localStorage.clear()
-    setIsLogged(false)
+    localStorage.clear();
+    setIsLogged(false);
   }
 
   return (
     <div className="body">
-      <CurrentUserContext.Provider value={value}>
+      <CurrentUserContext.Provider value={currentUser}>
         <Routes>
           <Route
             path="/"
@@ -98,12 +98,12 @@ function App() {
 
           <Route
             path="/signup"
-            element={isLogged ? <Navigate to='/' /> : <Register onLogin={handleLogin} />}
+            element={isLogged ? <Navigate to="/" /> : <Register onLogin={handleLogin} />}
           ></Route>
 
           <Route
             path="/signin"
-            element={isLogged ? <Navigate to='/' /> : <Login onLogin={handleLogin} />}
+            element={isLogged ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
           ></Route>
 
           <Route
@@ -118,7 +118,7 @@ function App() {
 
           <Route
             path="/profile"
-            element={<ProtectedRouteElement loggedIn={isLogged} element={Profile} onLogout={handleLogout} />}>
+            element={<ProtectedRouteElement loggedIn={isLogged} element={Profile} isLogged={isLogged} onEdit={handleUserEdit} onLogout={handleLogout} />}>
           </Route>
 
           <Route path="*" element={<NotFound />} />
@@ -131,12 +131,3 @@ function App() {
 }
 
 export default App;
-
-
-// protected routes ok
-
-// auth
-  // Login ok
-  // register ok
-  // logout ok
-  // tokenCheck ok

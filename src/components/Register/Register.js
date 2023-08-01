@@ -1,36 +1,57 @@
 import "./Register.css";
-import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
-
+import { regexEmail } from "../../config/config";
 
 function Register({ onLogin }) {
-  const navigate = useNavigate();
-  const [values, setValues] = useState({});
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [values, setValues] = useState({
+    name: "",
+    email: "erer@wewe.ru",
+    password: "",
+    nameError: false,
+    emailError: false,
+    passwordError: false,
+    nameErrorMessage: "",
+    emailErrorMessage: "",
+    passwordErrorMessage: "",
+  });
+
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setValues({ ...values, [name]: value });
+    const { name, value, validationMessage, validity } = target;
+    setValues({
+      ...values,
+      [name]: value,
+      [`${name}Error`]: validity.valid,
+      [`${name}ErrorMessage`]: validationMessage,
+    });
   };
-  const resetForm = useCallback(
-    (newValues = {}) => {
-      setValues(newValues);
-    },
-    [setValues]
-  );
+
+  const isValid = regexEmail.test(values.email);
+
+  useEffect(() => {
+    const disabled =
+      !values.nameError ||
+      !values.emailError ||
+      !values.passwordError ||
+      !isValid;
+    setIsButtonDisabled(disabled);
+  }, [values]);
 
   function handleSubmit(e) {
     e.preventDefault();
     console.log("Значения всех инпутов формы регистрации: ", values);
+    const { name, email, password } = values;
     mainApi
-      .signup(values)
+      .signup({ name, email, password })
       .then((userData) => {
         console.log("Пользовательские данные при регистрации: ", userData);
-        const { email, password } = values
-        onLogin({ email, password })
+        onLogin({ email, password });
       })
       .catch((err) => console.log(err));
-    resetForm();
+    e.target.reset();
   }
 
   return (
@@ -57,6 +78,9 @@ function Register({ onLogin }) {
             onChange={handleChange}
             value={values.name || ""}
           ></input>
+          <span className="register__error">
+            {values.nameErrorMessage.length > 0 ? values.nameErrorMessage : ""}
+          </span>
         </label>
         <label className="register__label">
           E-mail
@@ -69,8 +93,15 @@ function Register({ onLogin }) {
             minLength="2"
             maxLength="40"
             onChange={handleChange}
-            value={values.email || ""}
+//          value={values.email || ""}
           ></input>
+          <span className="register__error">
+            {values.emailErrorMessage.length > 0
+              ? values.emailErrorMessage
+              : !isValid
+              ? "Некорректный формат email"
+              : ""}
+          </span>
         </label>
         <label className="register__label">
           Пароль
@@ -85,8 +116,17 @@ function Register({ onLogin }) {
             onChange={handleChange}
             value={values.password || ""}
           ></input>
+          <span className="register__error">
+            {values.passwordErrorMessage.length > 0
+              ? values.passwordErrorMessage
+              : ""}
+          </span>
         </label>
-        <button className="register__submit" type="submit">
+        <button
+          className="register__submit"
+          disabled={isButtonDisabled}
+          type="submit"
+        >
           Зарегистрироваться
         </button>
         <p className="register__login-text">

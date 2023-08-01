@@ -4,6 +4,7 @@
 	margin: 0 auto;
 	display: flex;
 	flex-direction: column;
+	height: 100vh;
 }
 
 .register__title {
@@ -18,21 +19,26 @@
 }
 
 .register__label {
+	margin-top: 10px;
 	color: #8B8B8B;
 	font-weight: 400;
 	line-height: 1.2;
 	font-size: 10px;
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+}
+
+.register__label:first-of-type {
+	margin-top: 0;
 }
 
 .register__input {
+	margin-top: 10px;
+	margin-bottom: 10px;
 	border-radius: 8px;
 	background-color: #2F2F2F;
 	border: none;
 	padding: 15px;
-	margin-bottom: 20px;
 	color: #FFF;
 	font-weight: 400;
 	line-height: 1.2;
@@ -41,6 +47,13 @@
 
 .register__input:focus {
 	outline: 1px solid #4285F4;
+}
+
+.register__error {
+	color: #EE3465;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.2;
 }
 
 .register__submit {
@@ -62,6 +75,15 @@
 
 .register__submit:hover {
 	opacity: .8;
+}
+
+.register__submit[disabled] {
+	opacity: .3;
+}
+
+.register__submit[disabled]:hover {
+	opacity: .3;
+	cursor: not-allowed;
 }
 
 .register__login-text {

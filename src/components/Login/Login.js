@@ -1,29 +1,42 @@
 import "./Login.css";
-import { useCallback, useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
-import { mainApi } from "../../utils/MainApi";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { regexEmail } from "../../config/config";
 
 function Login({ onLogin }) {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [values, setValues] = useState({
+    email: "erer@wewe.ru",
+    password: "",
+    emailError: false,
+    passwordError: false,
+    emailErrorMessage: "",
+    passwordErrorMessage: "",
+  });
 
-  const navigate = useNavigate();
-  const [values, setValues] = useState({});
   const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setValues({ ...values, [name]: value });
+    const { name, value, validationMessage, validity } = target;
+    setValues({
+      ...values,
+      [name]: value,
+      [`${name}Error`]: validity.valid,
+      [`${name}ErrorMessage`]: validationMessage,
+    });
   };
-  const resetForm = useCallback(
-    (newValues = {}) => {
-      setValues(newValues);
-    },
-    [setValues]
-  );
+
+  const isValid = regexEmail.test(values.email);
+
+  useEffect(() => {
+    const disabled = !values.emailError || !values.passwordError || !isValid;
+    setIsButtonDisabled(disabled);
+  }, [values]);
 
   function handleSubmit(e) {
-    e.preventDefault()
-    onLogin(values)
-      .catch((err) => console.log(err))
+    e.preventDefault();
+    const { email, password } = values
+    onLogin({ email, password })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -48,8 +61,15 @@ function Login({ onLogin }) {
             minLength="2"
             maxLength="40"
             onChange={handleChange}
-            value={values.email || ""}
+//          value={values.email || ""}
           ></input>
+          <span className="login__error">
+            {values.emailErrorMessage.length > 0
+              ? values.emailErrorMessage
+              : !isValid
+                ? "Некорректный формат email"
+                : ""}
+          </span>
         </label>
         <label className="login__label">
           Пароль
@@ -64,8 +84,17 @@ function Login({ onLogin }) {
             onChange={handleChange}
             value={values.password || ""}
           ></input>
+          <span className="login__error">
+            {values.passwordErrorMessage.length > 0
+              ? values.passwordErrorMessage
+              : ""}
+          </span>
         </label>
-        <button className="login__submit" type="submit">
+        <button
+          className="login__submit"
+          disabled={isButtonDisabled}
+          type="submit"
+        >
           Войти
         </button>
         <p className="login__register-text">
