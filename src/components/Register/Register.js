@@ -5,7 +5,7 @@ import Logo from "../Logo/Logo";
 import { mainApi } from "../../utils/MainApi";
 import { regexEmail } from "../../config/config";
 
-function Register({ onLogin }) {
+function Register({ onLogin, onModal }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [values, setValues] = useState({
     name: "",
@@ -42,16 +42,22 @@ function Register({ onLogin }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("Значения всех инпутов формы регистрации: ", values);
     const { name, email, password } = values;
     mainApi
       .signup({ name, email, password })
-      .then((userData) => {
-        console.log("Пользовательские данные при регистрации: ", userData);
+      .then(() => {
         onLogin({ email, password });
       })
-      .catch((err) => console.log(err));
-    e.target.reset();
+      .catch((err) => {
+        switch (err) {
+          case "Ошибка в signup: 409":
+            onModal({ isOpen: true, statusOk: false, text: "Пользователь с таким email уже существует." });
+            break;
+          default:
+            onModal({ isOpen: true, statusOk: false, text: "При регистрации пользователя произошла ошибка." });
+            break;
+        }
+      });
   }
 
   return (

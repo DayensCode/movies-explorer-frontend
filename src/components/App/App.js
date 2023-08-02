@@ -41,7 +41,7 @@ function App() {
             navigate(location, { replace: true });
           })
           .catch(() => {
-            console.log("Oшибка в handleJwtCheck");
+            setModal({ statusOk: false, text: "На сервере произошла ошибка.", isOpen: true });
           });
       }
     }
@@ -63,8 +63,6 @@ function App() {
   }
 
   function handleUserEdit(name, email) {
-    if (currentUser.name === name && currentUser.email === email) return // сетапим InfoToolTip
-
     return mainApi
       .edit(name, email)
       .then((res) => {
@@ -98,17 +96,17 @@ function App() {
 
           <Route
             path="/signup"
-            element={isLogged ? <Navigate to="/" /> : <Register onLogin={handleLogin} />}
+            element={isLogged ? <Navigate to="/" /> : <Register onModal={setModal} onLogin={handleLogin} />}
           ></Route>
 
           <Route
             path="/signin"
-            element={isLogged ? <Navigate to="/" /> : <Login onLogin={handleLogin} />}
+            element={isLogged ? <Navigate to="/" /> : <Login onModal={setModal} onLogin={handleLogin} />}
           ></Route>
 
           <Route
             path="/movies"
-            element={<ProtectedRouteElementWithLayout loggedIn={isLogged} element={Movies} />}>
+            element={<ProtectedRouteElementWithLayout loggedIn={isLogged} onModal={setModal} element={Movies} />}>
           </Route>
 
           <Route
@@ -118,7 +116,7 @@ function App() {
 
           <Route
             path="/profile"
-            element={<ProtectedRouteElement loggedIn={isLogged} element={Profile} isLogged={isLogged} onEdit={handleUserEdit} onLogout={handleLogout} />}>
+            element={<ProtectedRouteElement loggedIn={isLogged} onModal={setModal} element={Profile} isLogged={isLogged} onEdit={handleUserEdit} onLogout={handleLogout} />}>
           </Route>
 
           <Route path="*" element={<NotFound />} />

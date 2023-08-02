@@ -6,66 +6,56 @@ import { moviesApi } from "../../utils/Movies.Api";
 import { filterMovies, getCorrectNumberMovies } from "../../utils/utils";
 import Preloader from "../Preloader/Preloader";
 
-function Movies({ setModal, closeModal }) {
+function Movies({ setModal, closeModal, onModal }) {
   const [isLoadind, setIsLoading] = useState(false);
-  const [movies, setMovies] = useState(() => {
-    const arr = JSON.parse(localStorage.getItem("movies")) || [];
-    return arr;
-  });
   const [correctNumber, setCorrectNumber] = useState(getCorrectNumberMovies());
   const [displayingMoreButton, setDisplayingMoreButton] = useState(true);
+  //все про поиск
+  const [isNothingFound, setIsNothingFound] = useState(false);
+  const [finalCorrectNumber, setFinalCorrectNumber] = useState(correctNumber.defaultMovies);
+  const [searchedResult, setSearchedResult] = useState(() => {
+    return JSON.parse(localStorage.getItem("currentSearchedResult")) || [];
+  });
+  const [movies, setMovies] = useState(() => {
+    const arr = JSON.parse(localStorage.getItem("movies")) || getMovies();
+    return arr;
+  });
 
   function getMovies() {
     setIsLoading(true);
     return moviesApi.getAllMovies()
       .then((res) => {
         localStorage.setItem("movies", JSON.stringify(res));
+        setMovies(res);
       })
       .catch((err) => setModal({ text: err, statusOk: false, isOpen: true }))
       .finally(() => setIsLoading(false))
   }
 
-  useEffect(() => {
-    setMovies([]);
-    getMovies();
-  }, [])
-
-    //все про поиск
-    const [isEmptyQuery, setIsEmptyQuery] = useState(false);
-    const [isNothingFound, setIsNothingFound] = useState(false);
-    const [searchedResult, setSearchedResult] = useState([]);
-
-    function searchMovies(querry, shorts) {
-      if (querry === "") {
-        setIsEmptyQuery(true);
-        return setMovies([]);
-      } //если пользователь ещё ничего не искал фильмы не отображаются
-      
-      setIsEmptyQuery(false);
-      let allLocalMovies = JSON.parse(localStorage.getItem("movies"));
-      const currentSearchedResult = allLocalMovies.filter(movie => filterMovies(movie, querry, shorts));
-
+  function searchMovies(querry, shorts) {
+    setFinalCorrectNumber(correctNumber.defaultMovies);
+    localStorage.setItem("querry", querry);
+    localStorage.setItem("shorts", JSON.stringify(shorts));
+    if (querry === "") {
+      onModal({ statusOk: false, text: "Введите ключевое слово.", isOpen: true })
+      return
+    } //если пользователь ещё ничего не искал фильмы не отображаются
+    const currentSearchedResult = movies.filter(movie => filterMovies(movie, querry, shorts));
+    if (currentSearchedResult.length === 0) {
+      setIsNothingFound(true);
+    } else {
+      setIsNothingFound(false);
       console.log("Найденные после фильтрации фильмы:", currentSearchedResult);
       setSearchedResult(currentSearchedResult);
-      let newNumberOfMovies = currentSearchedResult.slice(0, correctNumber.defaultMovies);
-      if ( currentSearchedResult.length === 0) {
-        setIsNothingFound(true);
-      } else if ( currentSearchedResult.length !== 0) {
-        setIsNothingFound(false);
-      }
-      setMovies(newNumberOfMovies);
+      localStorage.setItem("currentSearchedResult", JSON.stringify(currentSearchedResult))
     }
+  }
 
-    function handleMoreMovies() {
-      const moreMovies = searchedResult.slice(movies.length, movies.length + correctNumber.extraMovies);
-      setMovies([...movies, ...moreMovies]);
-    }
+  function handleMoreMovies() {
+    setFinalCorrectNumber(prev => prev + correctNumber.extraMovies);
+  }
 
-    useEffect(() => {
-      setDisplayingMoreButton(movies.length < searchedResult.length);
-    }, [searchedResult, movies])
-
-      // событие ресайза
+  // событие ресайза
   const resize = useCallback(() => {
     setCorrectNumber(getCorrectNumberMovies());
   }, [correctNumber]);
@@ -73,18 +63,27 @@ function Movies({ setModal, closeModal }) {
   useEffect(() => {
     window.addEventListener("resize", resize);
     console.log("После ресайза: ", correctNumber);
+    setFinalCorrectNumber(correctNumber.defaultMovies);
     return () => window.removeEventListener("resize", resize);
-  }, [resize]);
+  }, [resize, correctNumber]);
+
+  const movieToRender = searchedResult.slice(0, finalCorrectNumber);
+
+  useEffect(() => {
+    setDisplayingMoreButton(searchedResult.length > movieToRender.length);
+  }, [searchedResult, movieToRender])
+
+  console.log("finalCorrectNumber", finalCorrectNumber)
 
   return (
     <main className="movies" onClick={closeModal}>
-      <SearchForm onSearch={searchMovies} emptyQuery={isEmptyQuery} />
-      { isLoadind
+      <SearchForm onSearch={searchMovies} />
+      {isLoadind
         ? <Preloader />
-        : <MoviesCardList moviesData={movies} />
+        : <MoviesCardList moviesData={movieToRender} />
       }
       {isNothingFound ? <span className="movies__nothing">Ничего не найдено</span> : null}
-      { displayingMoreButton
+      {displayingMoreButton
         ? <button className="movies__button" type="button" onClick={handleMoreMovies}>Ещё</button>
         : null
       }

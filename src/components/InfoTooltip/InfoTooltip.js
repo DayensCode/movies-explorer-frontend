@@ -3,14 +3,11 @@ import resolve from "../../images/info-resolve.svg";
 import reject from "../../images/info-reject.svg";
 
 function InfoTooltip({ statusOk, text, isOpen, onClose }) {
-  function handleOverlayClick(onClose) {
-    onClose();
-  }
 
   return (
     <div
-      className={isOpen ? "info_opened" : "info"}
-      onClick={handleOverlayClick}
+      className={isOpen ? "info info_opened" : "info"}
+      onClick={onClose}
     >
       <div className="info__container">
         <img

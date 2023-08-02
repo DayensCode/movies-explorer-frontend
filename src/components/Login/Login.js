@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
 import { regexEmail } from "../../config/config";
 
-function Login({ onLogin }) {
+function Login({ onLogin, onModal }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [values, setValues] = useState({
     email: "erer@wewe.ru",
@@ -36,7 +36,22 @@ function Login({ onLogin }) {
     e.preventDefault();
     const { email, password } = values
     onLogin({ email, password })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        switch (err) {
+          case "Ошибка в signin: 400":
+            onModal({ isOpen: true, statusOk: false, text: "Вы ввели неправильный логин или пароль." });
+            break;
+          case "Ошибка в signin: 401":
+            onModal({ isOpen: true, statusOk: false, text: "Вы ввели неправильный логин или пароль." });
+            break;
+          case "Ошибка в signin: 403":
+            onModal({ isOpen: true, statusOk: false, text: "При авторизации произошла ошибка. Переданный токен некорректен." });
+            break;
+          default:
+            onModal({ isOpen: true, statusOk: false, text: "При авторизации произошла ошибка. Токен не передан или передан не в том формате." });
+            break;
+        }
+      });
   }
 
   return (
@@ -61,7 +76,6 @@ function Login({ onLogin }) {
             minLength="2"
             maxLength="40"
             onChange={handleChange}
-//          value={values.email || ""}
           ></input>
           <span className="login__error">
             {values.emailErrorMessage.length > 0

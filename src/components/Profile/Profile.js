@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { regexEmail } from "../../config/config";
 
-function Profile({ isLogged, onEdit, onLogout }) {
+function Profile({ isLogged, onEdit, onLogout, onModal }) {
   const profileContext = useContext(CurrentUserContext)
   const [values, setValues] = useState({ name: profileContext.name || "", email: profileContext.email || "" });
   const [nameError, setNameError] = useState("");
@@ -24,7 +24,19 @@ function Profile({ isLogged, onEdit, onLogout }) {
   }
 
   function handleEditProfile() {
-    return onEdit(values.name, values.email);
+    if (profileContext.name === values.name && profileContext.email === values.email) return
+    return onEdit(values.name, values.email)
+      .catch((err) => {
+        switch (err) {
+          case "Ошибка в edit: 409":
+            onModal({ isOpen: true, statusOk: false, text: "Пользователь с таким email уже существует." });
+            break;
+          default:
+            onModal({ isOpen: true, statusOk: false, text: "При регистрации пользователя произошла ошибка." });
+            break;
+        }
+      })
+      .finally(setEditButton(false));
   }
 
   const handleChangeName = ({ target }) => {
@@ -46,7 +58,7 @@ function Profile({ isLogged, onEdit, onLogout }) {
   useEffect(() => {
     const isAvailable = isButtonDisabled || !disabledButton || !isEmailValid
     setTotalDisabled(isAvailable)
-  }, [values, isButtonDisabled, disabledButton])
+  }, [values, isButtonDisabled, disabledButton, isEmailValid])
 
 
   useEffect(() => {
@@ -73,6 +85,7 @@ function Profile({ isLogged, onEdit, onLogout }) {
               placeholder="Введите имя"
               minLength={2}
               maxLength={30}
+              required
               value={values.name || ""}
               onChange={handleChangeName}
               disabled={disabledInput}
@@ -89,6 +102,7 @@ function Profile({ isLogged, onEdit, onLogout }) {
               placeholder="Введите email"
               minLength={2}
               maxLength={30}
+              required
               value={values.email || ""}
               onChange={handleChangeEmail}
               disabled={disabledInput}
