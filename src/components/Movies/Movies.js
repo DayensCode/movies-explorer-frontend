@@ -5,6 +5,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { moviesApi } from "../../utils/Movies.Api";
 import { filterMovies, getCorrectNumberMovies } from "../../utils/utils";
 import Preloader from "../Preloader/Preloader";
+import { mainApi } from '../../utils/MainApi'
 
 function Movies({ setModal, closeModal, onModal }) {
   const [isLoadind, setIsLoading] = useState(false);
@@ -13,6 +14,7 @@ function Movies({ setModal, closeModal, onModal }) {
   //все про поиск
   const [isNothingFound, setIsNothingFound] = useState(false);
   const [finalCorrectNumber, setFinalCorrectNumber] = useState(correctNumber.defaultMovies);
+  const [savedMovie, setSavedMovie] = useState([]);
   const [searchedResult, setSearchedResult] = useState(() => {
     return JSON.parse(localStorage.getItem("currentSearchedResult")) || [];
   });
@@ -62,7 +64,6 @@ function Movies({ setModal, closeModal, onModal }) {
 
   useEffect(() => {
     window.addEventListener("resize", resize);
-    console.log("После ресайза: ", correctNumber);
     setFinalCorrectNumber(correctNumber.defaultMovies);
     return () => window.removeEventListener("resize", resize);
   }, [resize, correctNumber]);
@@ -73,14 +74,57 @@ function Movies({ setModal, closeModal, onModal }) {
     setDisplayingMoreButton(searchedResult.length > movieToRender.length);
   }, [searchedResult, movieToRender])
 
-  console.log("finalCorrectNumber", finalCorrectNumber)
+
+  /// SAVE
+  function handleSave(movie) {
+    return mainApi.save(movie)
+      .then((res) => {
+        setSavedMovie([...savedMovie, res]);
+      })
+      .catch(err => console.log(err))
+  }
+
+  // REMOVE
+  function handleRemove(movie) {
+    const movieId = savedMovie.find((item) => (movie.id) === item.movieId)._id
+    return mainApi.remove(movieId)
+      .then(() => {
+        const newArr = savedMovie.filter((item) => item._id !== movieId)
+        setSavedMovie(newArr);
+      })
+      .catch((err) => console.log(err))
+  }
+
+  /// GET SAVED
+  function handleGetInitialMovies() {
+    return mainApi.getInitialMovie()
+      .then((res) => {
+        setSavedMovie(res);
+      })
+      .catch(err => console.log(err))
+  }
+
+  /// USE EFFECT GET SAVED
+  useEffect(() => {
+    handleGetInitialMovies();
+  }, [])
+
+  /// USE EFFECT LOCAL
+  useEffect(() => {
+    localStorage.setItem("savedMovie", JSON.stringify(savedMovie));
+  }, [savedMovie])
+
+  // useEffect(() => {
+  //   console.log('ПОЛУЧИЛИ С СЕРВЕРА',savedMovie)
+  // }, [savedMovie])
+
 
   return (
     <main className="movies" onClick={closeModal}>
       <SearchForm onSearch={searchMovies} />
       {isLoadind
         ? <Preloader />
-        : <MoviesCardList moviesData={movieToRender} />
+        : <MoviesCardList isSaved={savedMovie} onRemove={handleRemove} onSave={handleSave} moviesData={movieToRender} />
       }
       {isNothingFound ? <span className="movies__nothing">Ничего не найдено</span> : null}
       {displayingMoreButton

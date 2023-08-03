@@ -1,17 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./MoviesCard.css";
+import { useLocation } from "react-router-dom";
 import { moviesUrl } from "../../config/config";
 import MovieCardButton from "./MovieCardButton/MovieCardButton";
 import { convertingDuration } from "../../utils/utils";
 
-function MoviesCard({ movieData }) {
+function MoviesCard({ movieData, onSave, isSaved, onRemove }) {
+  const location = useLocation();
+  const moviePage = location.pathname === "/movies"
+
   const [isSave, setIsSave] = useState(false);
+
   function saveMovieHandler() {
-    setIsSave(true);
+    onSave();
   }
   function deleteMovieHandler() {
-    setIsSave(false);
+    onRemove();
   }
+
+  useEffect(() => {
+    if (isSaved) {
+      const result = isSaved.some((item) => (movieData.id) === item.movieId)
+      setIsSave(result);
+    }
+  }, [isSaved])
+
+
+  console.log(movieData);
+
   return (
     <li className="movie-card">
       <a
@@ -23,7 +39,7 @@ function MoviesCard({ movieData }) {
         <img
           className="movie-card__image"
           alt={movieData.nameRu}
-          src={`${moviesUrl}/${movieData.image.url}`}
+          src={moviePage? `${moviesUrl}/${movieData.image.url}` : movieData.image}
         />
       </a>
       <MovieCardButton

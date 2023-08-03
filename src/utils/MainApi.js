@@ -68,16 +68,51 @@ class MainApi {
     });
   }
 
-  save(movieData) {
+  save(movie) {
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+        'authorization': `Bearer ${localStorage.getItem("jwt")}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(movieData)
+      body: JSON.stringify({
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `${this._baseUrl}${movie.image.url}`,
+        trailerLink: movie.trailerLink,
+        thumbnail: `${this._baseUrl}${movie.image.formats.thumbnail.url}`,
+        movieId: `${movie.id}`,
+        nameRU: movie.nameRU,
+        nameEN: movie.nameEN
+      })
     }).then((res) => {
       return this._checkResponseStatus(res, "save");
+    });
+  }
+
+  remove(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: "DELETE",
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem("jwt")}`,
+        'Content-Type': 'application/json'
+      },
+    }).then((res) => {
+      return this._checkResponseStatus(res, "remove");
+    });
+  }
+
+  getInitialMovie() {
+    return fetch(`${this._baseUrl}/movies`, {
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem("jwt")}`,
+        'Content-Type': 'application/json'
+      },
+    }).then((res) => {
+      return this._checkResponseStatus(res, "getInitialMovie");
     });
   }
 }

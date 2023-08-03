@@ -1,13 +1,19 @@
-import './SavedMovies.css';
-import SearchForm from '../SearchForm/SearchForm';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
-//import savedMoviesData from '../../constants/saved';
+import "./SavedMovies.css";
+import SearchForm from "../SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import { useState } from "react";
 
 function SavedMovies() {
+  const [savedMoviesData, setSavedMoviesData] = useState(() => {
+    return JSON.parse(localStorage.getItem("savedMovie"))
+  })
+
+
+
   return (
     <main className="saved-movies">
       <SearchForm />
-      <MoviesCardList /*moviesData={savedMoviesData}*/ />
+      <MoviesCardList moviesData={savedMoviesData} />
     </main>
   )
 };
