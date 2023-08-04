@@ -111,7 +111,7 @@ function App() {
 
           <Route
             path="/saved-movies"
-            element={<ProtectedRouteElementWithLayout loggedIn={isLogged} element={SavedMovies} />}>
+            element={<ProtectedRouteElementWithLayout loggedIn={isLogged} onModal={setModal} element={SavedMovies} />}>
           </Route>
 
           <Route

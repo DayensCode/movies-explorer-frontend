@@ -1,3 +1,5 @@
+import { moviesUrl } from '../config/config'
+
 const mainApiOptions = {
   baseUrl: "https://api.mymovies.nomoreparties.sbs",
 };
@@ -81,9 +83,9 @@ class MainApi {
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: `${this._baseUrl}${movie.image.url}`,
+        image: `${moviesUrl}${movie.image.url}`,
         trailerLink: movie.trailerLink,
-        thumbnail: `${this._baseUrl}${movie.image.formats.thumbnail.url}`,
+        thumbnail: `${moviesUrl}${movie.image.formats.thumbnail.url}`,
         movieId: `${movie.id}`,
         nameRU: movie.nameRU,
         nameEN: movie.nameEN

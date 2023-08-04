@@ -14,6 +14,7 @@ function MoviesCard({ movieData, onSave, isSaved, onRemove }) {
   function saveMovieHandler() {
     onSave();
   }
+
   function deleteMovieHandler() {
     onRemove();
   }
@@ -24,9 +25,6 @@ function MoviesCard({ movieData, onSave, isSaved, onRemove }) {
       setIsSave(result);
     }
   }, [isSaved])
-
-
-  console.log(movieData);
 
   return (
     <li className="movie-card">
@@ -39,13 +37,13 @@ function MoviesCard({ movieData, onSave, isSaved, onRemove }) {
         <img
           className="movie-card__image"
           alt={movieData.nameRu}
-          src={moviePage? `${moviesUrl}/${movieData.image.url}` : movieData.image}
+          src={moviePage ? `${moviesUrl}/${movieData.image.url}` : movieData.image}
         />
       </a>
       <MovieCardButton
-        type={isSave ? "movie-card-button_type_save" : null}
+        type={moviePage ? isSave ? "movie-card-button_type_save" : "movie-card-button" : "movie-card-button_type_remove"}
         onClickHandler={
-          isSave ? deleteMovieHandler : saveMovieHandler
+          moviePage ? isSave ? deleteMovieHandler : saveMovieHandler : deleteMovieHandler
         }
       >
       </MovieCardButton>

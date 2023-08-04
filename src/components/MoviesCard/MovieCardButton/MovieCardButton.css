@@ -17,6 +17,12 @@
 	height: 21px;
 }
 
+.movie-card-button_type_remove {
+	background-image: url('../../../images/saved-movies-delete.svg');
+	width: 21px;
+	height: 21px;
+}
+
 .movie-card-button:hover {
 	opacity: .8;
 }

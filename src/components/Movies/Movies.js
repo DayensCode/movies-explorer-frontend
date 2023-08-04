@@ -45,6 +45,7 @@ function Movies({ setModal, closeModal, onModal }) {
     const currentSearchedResult = movies.filter(movie => filterMovies(movie, querry, shorts));
     if (currentSearchedResult.length === 0) {
       setIsNothingFound(true);
+      setSearchedResult(currentSearchedResult);
     } else {
       setIsNothingFound(false);
       console.log("Найденные после фильтрации фильмы:", currentSearchedResult);
@@ -74,8 +75,7 @@ function Movies({ setModal, closeModal, onModal }) {
     setDisplayingMoreButton(searchedResult.length > movieToRender.length);
   }, [searchedResult, movieToRender])
 
-
-  /// SAVE
+  // SAVE
   function handleSave(movie) {
     return mainApi.save(movie)
       .then((res) => {
@@ -95,7 +95,7 @@ function Movies({ setModal, closeModal, onModal }) {
       .catch((err) => console.log(err))
   }
 
-  /// GET SAVED
+  // GET SAVED
   function handleGetInitialMovies() {
     return mainApi.getInitialMovie()
       .then((res) => {
@@ -104,20 +104,15 @@ function Movies({ setModal, closeModal, onModal }) {
       .catch(err => console.log(err))
   }
 
-  /// USE EFFECT GET SAVED
+  // USE EFFECT GET SAVED
   useEffect(() => {
     handleGetInitialMovies();
   }, [])
 
-  /// USE EFFECT LOCAL
+  // USE EFFECT LOCAL
   useEffect(() => {
     localStorage.setItem("savedMovie", JSON.stringify(savedMovie));
   }, [savedMovie])
-
-  // useEffect(() => {
-  //   console.log('ПОЛУЧИЛИ С СЕРВЕРА',savedMovie)
-  // }, [savedMovie])
-
 
   return (
     <main className="movies" onClick={closeModal}>
