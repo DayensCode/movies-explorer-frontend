@@ -1,3 +1,5 @@
+import { shortsDuration, mobileSize, tabletSize, mobileMoviesObj, tabletMoviesObj, desktopMoviesObj } from "../config/config";
+
 export function convertingDuration(duration) {
 	const hours = Math.trunc(duration / 60);
 	const minutes = duration % 60;
@@ -14,7 +16,7 @@ function queryFilter(movie, query) {
 	return check;
 }
 
-function durationFilter(duration, shorts, correctDuration = 40) {
+function durationFilter(duration, shorts, correctDuration = shortsDuration) {
 	if (shorts && (duration <= correctDuration)) {
 		return true;
 	} else {
@@ -29,11 +31,11 @@ export function filterMovies(movie, query, shorts) {
 // все про отображение нужного числа фильмов
 export function getCorrectNumberMovies() {
 	const screenWidth = window.innerWidth;
-	if (screenWidth <= 544) {
-		return {defaultMovies: 5, extraMovies: 2};
-	} else if (screenWidth <= 1024) {
-		return {defaultMovies: 8, extraMovies: 2};
+	if (screenWidth <= mobileSize) {
+		return mobileMoviesObj;
+	} else if (screenWidth <= tabletSize) {
+		return tabletMoviesObj;
 	} else {
-		return {defaultMovies: 12, extraMovies: 3};
+		return desktopMoviesObj;
 	}
 }

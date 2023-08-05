@@ -24,6 +24,7 @@ function Profile({ isLogged, onEdit, onLogout, onModal }) {
   }
 
   function handleEditProfile() {
+    setDisabledInput(true);
     if (profileContext.name === values.name && profileContext.email === values.email) return
     return onEdit(values.name, values.email)
       .catch((err) => {
@@ -36,7 +37,10 @@ function Profile({ isLogged, onEdit, onLogout, onModal }) {
             break;
         }
       })
-      .finally(setEditButton(false));
+      .finally(() => {
+        setEditButton(false);
+        setDisabledInput(true);
+      });
   }
 
   const handleChangeName = ({ target }) => {

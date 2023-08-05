@@ -6,6 +6,7 @@ import { regexEmail } from "../../config/config";
 
 function Login({ onLogin, onModal }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isDisabledInput, setIsDisabledInput] = useState(false);
   const [values, setValues] = useState({
     email: "erer@wewe.ru",
     password: "",
@@ -34,6 +35,7 @@ function Login({ onLogin, onModal }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsDisabledInput(true);
     const { email, password } = values
     onLogin({ email, password })
       .catch((err) => {
@@ -51,7 +53,10 @@ function Login({ onLogin, onModal }) {
             onModal({ isOpen: true, statusOk: false, text: "При авторизации произошла ошибка. Токен не передан или передан не в том формате." });
             break;
         }
-      });
+      })
+      .finally(() => {
+        setIsDisabledInput(false);
+      })
   }
 
   return (
@@ -75,6 +80,7 @@ function Login({ onLogin, onModal }) {
             placeholder="E-mail"
             minLength="2"
             maxLength="40"
+            disabled={isDisabledInput}
             onChange={handleChange}
           ></input>
           <span className="login__error">
@@ -95,6 +101,7 @@ function Login({ onLogin, onModal }) {
             placeholder="Пароль"
             minLength="2"
             maxLength="40"
+            disabled={isDisabledInput}
             onChange={handleChange}
             value={values.password || ""}
           ></input>

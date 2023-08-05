@@ -7,6 +7,7 @@ import { regexEmail } from "../../config/config";
 
 function Register({ onLogin, onModal }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isDisabledInput, setIsDisabledInput] = useState(false);
   const [values, setValues] = useState({
     name: "",
     email: "erer@wewe.ru",
@@ -57,6 +58,9 @@ function Register({ onLogin, onModal }) {
             onModal({ isOpen: true, statusOk: false, text: "При регистрации пользователя произошла ошибка." });
             break;
         }
+      })
+      .finally(() => {
+        setIsDisabledInput(false);
       });
   }
 
@@ -81,6 +85,7 @@ function Register({ onLogin, onModal }) {
             placeholder="Имя"
             minLength="2"
             maxLength="40"
+            disabled={isDisabledInput}
             onChange={handleChange}
             value={values.name || ""}
           ></input>
@@ -98,15 +103,15 @@ function Register({ onLogin, onModal }) {
             placeholder="E-mail"
             minLength="2"
             maxLength="40"
+            disabled={isDisabledInput}
             onChange={handleChange}
-//          value={values.email || ""}
           ></input>
           <span className="register__error">
             {values.emailErrorMessage.length > 0
               ? values.emailErrorMessage
               : !isValid
-              ? "Некорректный формат email"
-              : ""}
+                ? "Некорректный формат email"
+                : ""}
           </span>
         </label>
         <label className="register__label">
@@ -119,6 +124,7 @@ function Register({ onLogin, onModal }) {
             placeholder="Пароль"
             minLength="2"
             maxLength="40"
+            disabled={isDisabledInput}
             onChange={handleChange}
             value={values.password || ""}
           ></input>

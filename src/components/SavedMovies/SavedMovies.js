@@ -17,7 +17,9 @@ function SavedMovies({ onModal }) {
       .then((res) => {
         const newArr = savedMoviesData.filter((item) => item._id !== id)
         setSavedMoviesData(newArr);
-        setSearchedResult(newArr);
+
+        const newArrResult = searchedResult.filter((item) => item._id !== id)
+        setSearchedResult(newArrResult);
         localStorage.setItem("savedMovie", JSON.stringify(newArr));
       })
       .catch((err) => {
