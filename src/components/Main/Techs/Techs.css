@@ -112,14 +112,27 @@
 	}
 
 	.tech__cards {
-		margin: 50px 53px;
+		margin: 50px auto;
 		flex-wrap: wrap;
 		justify-content: normal;
+		max-width: 366px;
 	}
 
 	.tech__card {
 		padding: 21px 0;
 		font-size: 12px;
 		letter-spacing: -0.48px;
+	}
+}
+
+@media screen and (max-width: 405px) {
+	.tech__cards {
+		max-width: 273px;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.tech__cards {
+		max-width: 178px;
 	}
 }

@@ -4,7 +4,7 @@
 	right: 0;
 	top: 0;
 	background-color: #202020;
-	height: 63%;
+	height: 77%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -22,7 +22,7 @@
 	background-color: transparent;
 	border: none;
 	position: absolute;
-	right: 22px;
+	right: 40px;
 	top: 22px;
 	cursor: pointer;
 	transition: opacity .3s ease-in-out;
@@ -57,12 +57,12 @@
 	line-height: 1.2;
 }
 
-.burger__link.active {
-	border-bottom: 2px solid #fff;
-}
-
 .burger__link:hover{
 	opacity: .7;
+}
+
+.burger__link:active {
+	border-bottom: 3px solid rgb(255, 255, 255, 0.2);
 }
 
 .burger__link_type_profile {
@@ -77,10 +77,11 @@
 @media screen and (max-width: 544px) {
 	.burger {
 		padding: 144px 0 46px;
+		height: 72%;
 	}
 
 	.burger__close {
-		right: 13px;
+		right: 20px;
 		top: 13px;
 	}
 

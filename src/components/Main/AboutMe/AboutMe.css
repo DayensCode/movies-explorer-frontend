@@ -1,5 +1,6 @@
 .about-me {
 	padding: 110px 70px 0;
+	background-color: #202020;
 }
 
 .about-me__title {
@@ -58,6 +59,7 @@
 }
 
 .about-me__photo {
+	background-size: cover;
 	border-radius: 10px;
 }
 

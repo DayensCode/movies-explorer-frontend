@@ -2,7 +2,7 @@
 	font-size: 12px;
 	font-weight: 400;
 	line-height: 18px;
-	margin: 0 auto;
+	margin: 30px auto 0;
 }
 
 .checkbox__element_type_default {
@@ -39,6 +39,7 @@
 @media screen and (max-width: 544px) {
 	.checkbox {
 		font-size: 11px;
+		margin: 44px auto 0;
 	}
 
 	.checkbox__element_type_custom {
