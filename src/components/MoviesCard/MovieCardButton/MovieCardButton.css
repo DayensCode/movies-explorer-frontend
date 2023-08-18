@@ -2,6 +2,7 @@
 	background-color: transparent;
 	border: none;
 	background-image: url('../../../images/movies-save.svg');
+	background-repeat: no-repeat;
 	width: 72px;
 	height: 21px;
 	position: absolute;
@@ -13,12 +14,14 @@
 
 .movie-card-button_type_save {
 	background-image: url('../../../images/movies-done.svg');
+	background-repeat: no-repeat;
 	width: 21px;
 	height: 21px;
 }
 
 .movie-card-button_type_remove {
 	background-image: url('../../../images/saved-movies-delete.svg');
+	background-repeat: no-repeat;
 	width: 21px;
 	height: 21px;
 }

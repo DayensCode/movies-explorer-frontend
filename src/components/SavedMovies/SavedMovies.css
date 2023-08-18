@@ -15,12 +15,12 @@
 
 @media screen and (max-width: 1024px) {
 	.saved-movies {
-	padding-bottom: 175px;
+	padding: 0 30px 175px;
 	}
 }
 
 @media screen and (max-width: 544px) {
 	.saved-movies {
-	padding-bottom: 150px;
+	padding: 0 10px 150px;
 	}
 }
