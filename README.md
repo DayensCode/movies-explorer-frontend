@@ -4,7 +4,7 @@
 
 Интерактивный сервис, с помощью которого пользователи могут искать фильмы по ключевым словам и добавлять их в избранное. Бэкэнд часть проекта находится [тут](https://github.com/DayensCode/movies-explorer-api).
 
-![image](https://github.com/DayensCode/movies-explorer-frontend/blob/main/shot-for-readme.png)
+![image](https://github.com/DayensCode/movies-explorer-frontend/blob/main/screen-for-readme.png)
 
 ### Ссылка на макет
 
