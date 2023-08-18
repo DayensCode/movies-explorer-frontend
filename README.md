@@ -21,10 +21,10 @@ https://mymovies.nomoreparties.sbs
 [JS](https://ru.wikipedia.org/wiki/JavaScript)
 [React](https://ru.wikipedia.org/wiki/React)
 
-## Запуск приложения
+## Запуск проекта
 
-- _npm ci_ - устанавливает и обновляет зависимости
-- _npm run start_ - запускает приложение
+`npm ci` — устанавливает и обновляет зависимости
+`npm run start` — запускает приложение
 
 ## Процесс создания
 
